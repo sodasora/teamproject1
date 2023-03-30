@@ -15,22 +15,21 @@ player = create_player()
 
 # 몬스터 사전
 monster_dict = [
-    {   # Lv.1
-        1: Monster("돌맹이"),
-        2: Monster("정전기"),
-        3: Monster("불쏘시개"),
+    {
+    1: Monster("좀비", 1, "저주"), 2: Monster("구울", 1, "광신"), 3: Monster("가시 쥐", 1, "축복받은 조준"),
+    4: Monster("가시 마귀", 1, "신성한 번개"), 5: Monster("가시 야수", 1, "신성한 불꽃"), 6: Monster("서슬 가시", 1, "위세"),
+    7: Monster("설인", 1, "냉기 강화"), 8: Monster("어둠의 사냥꾼", 1, "암흑 화살")
     },
-    {   # Lv.2
-        1: Monster("강력한 돌맹이"),
-        2: Monster("강력한 정전기"),
-        3: Monster("강력한 불쏘시개"),
+
+    {
+        1 : Monster("미라", 2,"메테오"), 2 : Monster("메마른 시체",2,"세비지 블로우"), 3 : Monster("망자", 2,"암흑 주술"),
+        4 : Monster("수호자", 2,"신성한 불꽃"), 5 : Monster("사브르 고양이", 2,"다발 사격"), 6 : Monster("모래 구더기",2,"스톤 스킨")
     },
-    {   # Lv.3
-        1: Monster("섹시한 돌맹이"),
-        2: Monster("섹시한 정전기"),
-        3: Monster("섹시한 불쏘시개"),
-    },
-]
+
+    {
+        1 : Monster("거대 거미", 3,"멀티플 샷"),2 : Monster("저승 꼭두각시", 3,"순간 이동"), 3 : Monster("황혼의 영혼", 3,"암흑 혼령")
+    }
+    ]
 
 game_exit = False
 first_town_visit = True
@@ -58,6 +57,7 @@ while not game_exit:
                 # ❌ 상점 구현
                 print("\n상점을 방문했습니다.")    
                 print("\n상점에서 나왔습니다.")
+                break
             
             if answer == 2:
                 dungeon_level_list = [1,2,3]

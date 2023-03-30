@@ -65,7 +65,7 @@ class Magician(Player):
         level_up_info = 10
         self._magic_power += level_up_info + 30
         print(
-            f"Level UP! 현재 스텟 - 파워:{self._power} 체력:{self._current_hp} 마법파워:{self._magic_power}, 맥스체력:{self._max_hp}")
+            f"Level UP! 현재 스텟 - 파워:{self._power}, 마법파워:{self._magic_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
 
 
 #======Knight, Thief class 추후 추가해주세요=====
@@ -75,14 +75,29 @@ class Knight(Player):
         super().__init__(name)
         self._strength_power = self._power * 2
 
-    def level_up(self):
+    def level_up(self):  # super로 메소드 호출하고, 추가기능만 오버라이딩
+        super().level_up()
         level_up_info = 10
-        self._current_hp += level_up_info * 10
-        self._current_mp += level_up_info * 10
-        self._power += level_up_info + 10
         self._strength_power += level_up_info + 30
         print(
-            f"Level UP! 현재 스텟 - power:{self._power} hp:{self._current_hp} strength_power:{self._strength_power}") 
+            f"Level UP! 현재 스텟 - 파워:{self._power} 체력:{self._current_hp}, 맥스체력:{self._max_hp}, 전사파워:{self._strength_power}, ") 
+    
+    # 전사 플레이어가 몬스터를 공격할 때 들어가는 함수
+    def attack(self):
+        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        if attack_type == '1':
+            return super().attack()
+        elif attack_type == '2':
+            attack_type2 = str(input("공격 유형을 선택해주십시오. 1:광역공격, 2:타겟공격: ")) 
+            if random.random() > 0.01:
+                print(f'{self._name}의 차원 가르기!!!!!')      
+                skill_damage = random.randint(int(self._strength_power * 0.8), int(self._strength_power * 1.2))
+                if attack_type2 == '1':
+                    return [True, True, skill_damage]
+                elif attack_type2 == '2':
+                    return [True, False, skill_damage]
+            else:
+                return [False]
 
 class Thief(Player):
     def __init__(self, name): 
@@ -90,13 +105,12 @@ class Thief(Player):
         self._dexterity_power = self._power * 2
 
     def level_up(self):
+        super().level_up()
         level_up_info = 10
-        self._current_hp += level_up_info * 10
-        self._current_mp += level_up_info * 10
-        self._power += level_up_info + 10
         self._dexterity_power += level_up_info + 30
         print(
             f"Level UP! 현재 스텟 - power:{self._power} hp:{self._current_hp} dex_power:{self._dexterity_power}")
+
 
 
 def create_player():
@@ -142,52 +156,35 @@ def create_player():
 
     체력: {player_obj._max_hp} / 특수스킬: {career_skill[player_career]} 
     """)
+    return player_obj
 
+# #============= 스탯 부여 함수 =============
+# def set_status():
+#     power = 0
 
-    #============= 스탯 부여 함수 =============
-    def set_status():
-        power = 0
-
-        def func():
-            _power = random.random()
-            if _power < 0.05:
-                _power = random.randint(23, 25)
-            elif 0.05 < _power < 0.4:
-                _power = random.randint(20, 22)
-            else:
-                _power = random.randint(15, 19)
-            
-            print(f"\033[0m현재 당신의 스탯은 \033[1m{_power}\033[0m 입니다. (15 ~ 25)")
-            return(_power)
+#     def func():
+#         _power = random.random()
+#         if _power < 0.05:
+#             _power = random.randint(23, 25)
+#         elif 0.05 < _power < 0.4:
+#             _power = random.randint(20, 22)
+#         else:
+#             _power = random.randint(15, 19)
         
-        (power) = func()
+#         print(f"\033[0m현재 당신의 스탯은 \033[1m{_power}\033[0m 입니다. (15 ~ 25)")
+#         return(_power)
+    
+#     (power) = func()
 
-        while True:
-            answer = input("스탯을 다시 부여받으시겠습니까? (y/n)\n").lower()
-            if answer =="y":
-                set_status()
-                break
-            if answer == "n":
-                break
-            elif answer != "y" and answer != "n":
-                print("잘못된 입력입니다. y 또는 n을 입력하세요. ")
-
-        answer_list = ["y", "yes", "n", "no"]
-
-        while True:
-            if answer == "n" or answer == "no":
-                break
-
-            if answer not in answer_list:
-                print("입력이 잘못 되었습니다.")
-                answer = input("스탯을 다시 부여받으시겠습니까? (y/n)\n").lower()
-
-            else:
-                (power) = func()
-                answer = input("스탯을 다시 부여받으시겠습니까? (y/n)\n").lower()
-
-        return(power)
-
-
-    #============= 스탯 부여 실행코드 =============
-    (power) = set_status() # 플레이어만 파워설정 되도록
+#     while True:
+#         answer = input("스탯을 다시 부여받으시겠습니까? (y/n)\n").lower()
+#         if answer =="y":
+#             power = func()
+#         if answer == "n":
+#             break
+#         elif answer != "y" and answer != "n":
+#             print("잘못된 입력입니다. y 또는 n을 입력하세요. ")
+    
+#     #============= 스탯 부여 실행코드 =============
+#     (power) = set_status() # 플레이어만 파워설정 되도록
+    
