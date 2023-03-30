@@ -16,11 +16,19 @@ class Player(Character):
     def show_status(self):
         super().show_status()
         print(f"MP : {self._current_mp} / {self._max_mp}")
+
+    def change_mp(self, value: int):
+        self._current_mp -= value
+
+    def show_mp(self):
+        super().show_hp()
+        print(f"{self._name}의 남은 MP : {self._mp}")
     
     # 플레이어가 몬스터에게 일반 공격할 때 들어가는 함수
-    def attack(self):
-        return super().attack()
+    # def attack(self):
+    #     return super().attack()
 
+    # 보상 시스템이 app.py 전투씬에도 구현되어 있어서 두 곳 중 한 군데를 수정하면 좋겠습니다 -민정
     def get_exp(self, is_alive):
         # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 경험치 얻기
         if is_alive:
@@ -40,7 +48,6 @@ class Player(Character):
             gold_ = (self._max_level - self._level + 1) * 15 # 경험치는 레벨 비례로 덜 얻게 했는데 골드 기준 생각해보기
             self._gold += random.randint(int(gold_*0.7), int(gold_*1.3))
             print(f'{self._gold}골드를 획득하였습니다! 현재 골드: {self._gold}')
-
 
     def level_up(self):
         level_up_info = 10
@@ -66,6 +73,28 @@ class Magician(Player):
         self._magic_power += level_up_info + 30
         print(
             f"Level UP! 현재 스텟 - 파워:{self._power}, 마법파워:{self._magic_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
+        
+    # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
+    def attack(self):
+        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        if attack_type == '1':
+            super().attack()
+        elif attack_type == '2':
+            if self._current_mp > 20:
+                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                self._current_mp = max(self._current_mp-20, 0)
+                if random.random() > 0.01:
+                    print(f'{self._name}의 메테오!!!!!')      
+                    skill_damage = random.randint(int(self._magic_power * 0.8), int(self._magic_power * 1.2))
+                    if attack_type2 == '1':
+                        return [True, True, skill_damage]
+                    elif attack_type2 == '2':
+                        return [True, False, skill_damage]
+                else:
+                    return [False, False, 0] # 이부분 [false false 0]으로
+            else:
+                print("MP가 부족합니다. 일반공격을 시도합니다.")
+                super().attack()
 
 
 #======Knight, Thief class 추후 추가해주세요=====
@@ -86,18 +115,23 @@ class Knight(Player):
     def attack(self):
         attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
         if attack_type == '1':
-            return super().attack()
+            super().attack()
         elif attack_type == '2':
-            attack_type2 = str(input("공격 유형을 선택해주십시오. 1:광역공격, 2:타겟공격: ")) 
-            if random.random() > 0.01:
-                print(f'{self._name}의 차원 가르기!!!!!')      
-                skill_damage = random.randint(int(self._strength_power * 0.8), int(self._strength_power * 1.2))
-                if attack_type2 == '1':
-                    return [True, True, skill_damage]
-                elif attack_type2 == '2':
-                    return [True, False, skill_damage]
+            if self._current_mp > 20:
+                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                self._current_mp = max(self._current_mp-20, 0)
+                if random.random() > 0.01:
+                    print(f'{self._name}의 차원 가르기!!!!!')      
+                    skill_damage = random.randint(int(self._strength_power * 0.8), int(self._strength_power * 1.2))
+                    if attack_type2 == '1':
+                        return [True, True, skill_damage]
+                    elif attack_type2 == '2':
+                        return [True, False, skill_damage]
+                else:
+                    return [False, False, 0]
             else:
-                return [False]
+                print("MP가 부족합니다. 일반공격을 시도합니다.")
+                super().attack()
 
 class Thief(Player):
     def __init__(self, name): 
@@ -110,6 +144,42 @@ class Thief(Player):
         self._dexterity_power += level_up_info + 30
         print(
             f"Level UP! 현재 스텟 - power:{self._power} hp:{self._current_hp} dex_power:{self._dexterity_power}")
+        
+    # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
+    def attack(self):
+        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        if attack_type == '1':
+            super().attack()
+        elif attack_type == '2':
+            if self._current_mp > 20:
+                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                self._current_mp = max(self._current_mp-20, 0)
+                if random.random() > 0.01:
+                    print(f'{self._name}의 새비지 블로우!!!!!')      
+                    skill_damage = random.randint(int(self._dexterity_power * 0.8), int(self._dexterity_power * 1.2))
+                    if attack_type2 == '1':
+                        return [True, True, skill_damage]
+                    elif attack_type2 == '2':
+                        return [True, False, skill_damage]
+                else:
+                    return [False, False, 0]
+            else:
+                print("MP가 부족합니다. 일반공격을 시도합니다.")
+                super().attack()
+    
+    # 도적의 공격 피하기 스킬 (전사는 레벨업할수록 hp 더 커지고, 마법사는 mp 더 커지고, 도적은 회피율 증가)
+    def attacked(self, attack_info: list):
+        # attack_info = [is_attack_success, is_area_attack, damage]
+        luck = self._dexterity_power * 0.008
+        half_damage = int(attack_info[2] / 2)
+        if attack_info[0]:
+            if random.random() < luck:
+                print(
+                    f"{self._name}이(가) 몬스터의 공격을 살짝 피해 원래 데미지({attack_info[2]})의 절반인 {half_damage} 데미지만 입었습니다.")
+                self.change_hp(half_damage)
+        else:
+            print(f"{self._name}이(가) 공격을 회피했습니다.")
+            self.change_hp()
 
 
 

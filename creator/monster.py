@@ -2,9 +2,11 @@ import random
 
 from creator.character import Character
 
-class Monster:
-    def __init__(self, name,rank, skill):
-        self._name = name
+class Monster(Character):
+    def __init__(self, name, rank, skill): # 몬스터도 랭크 말고 레벨로 변수명 똑같이 하는 거 어떨까요? 캐릭터클래스에 일반공격을 넣어놨는데 레벨(랭크)에 따라 공격성공률이 다르게 설정해가지구요..!! -민정
+        super().__init__(name)
+        # self._name = name     <- 몬스터도 캐릭터 클래스를 상속받음 - 민정
+        self._level = rank
         self._rank = rank
         self._skill = skill
         self._is_alive = True
@@ -25,19 +27,28 @@ class Monster:
     def show_status(self):
         print(f"{self._name}의 상태\nHP {self._hp}")
 
-# 공격 받았을 때 쓰는 함수
-    def attacked(self, attack_info: list):
-        # attack_info = (is_attacked, damage)
-        if attack_info[0]:
-            print(
-                f"{self._name}이(가) {attack_info[1]}의 데미지를 입었습니다.")
-            self.change_hp(attack_info[1])
+# # 공격 받았을 때 쓰는 함수    <-캐릭터 클래스에 정의되어 있는데 
+#     def attacked(self, attack_info: list):
+#         # attack_info = (is_attacked, damage)
+#         if attack_info[0]:
+#             print(
+#                 f"{self._name}이(가) {attack_info[1]}의 데미지를 입었습니다.")
+#             self.change_hp(attack_info[1])
 
-        else:
-            print(f"{self._name}이(가) 공격을 회피했습니다.")
-            self.change_hp()
+#         else:
+#             print(f"{self._name}이(가) 공격을 회피했습니다.")
+#             self.change_hp()
 
-    # 전투 메소드
+    # 몬스터가 플레이어한테 일반 공격할 때 들어가는 함수
+    def attack(self):
+        return super().attack()
+    
+    def attacked(self):
+        return super().attacked()
+
+
+    
+    # 전투 메소드      <-캐릭터 클래스에 일반 공격 함수가 정의되어 있어 상속받으면 될 거 같습니다 -민정
     def attack(self):
         print(f"{self._name}이(가) 일반 공격을 시도합니다.")
 
@@ -55,7 +66,7 @@ class Monster:
         else:
             return [False]
 
-    def change_hp(self, damage=-1):
+    def change_hp(self, damage=-1):    # <-change_hp, show_hp는 플레이어 몬스터 공통이라 캐릭터 클래스에 넣었습니다
         if not damage == -1:
             self._hp -= damage
 
@@ -95,7 +106,3 @@ dict_monster_rank3 = {
     "1" : Monster("거대 거미", 3,"멀티플 샷"),"2" : Monster("저승 꼭두각시", 3,"순간 이동"), "3" : Monster("황혼의 영혼", 3,"암흑 혼령")
 }
 
-dict_monster_rank1["1"].show_skill()
-dict_monster_rank1["1"].show_status()
-dict_monster_rank3["1"].attack()
-dict_monster_rank1["1"].show_status()
