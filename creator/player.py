@@ -79,7 +79,7 @@ class Magician(Player):
     def attack(self):
         attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
         if attack_type == '1':
-            super().attack()
+            return super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
                 attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
@@ -146,7 +146,7 @@ class Thief(Player):
     def attack(self):
         attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
         if attack_type == '1':
-            super().attack()
+            return super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
                 attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
@@ -163,6 +163,21 @@ class Thief(Player):
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 super().attack()
+
+    # 도적의 공격 피하기 스킬 (전사는 레벨업할수록 hp 더 커지고, 마법사는 mp 더 커지고, 도적은 회피율 증가)
+    def attacked(self, attack_info: list):
+        # attack_info = [is_attack_success, is_area_attack, damage]
+        luck = self._dexterity_power * 0.008
+        half_damage = int(attack_info[2] / 2)
+        if attack_info[0]:
+            if random.random() < luck:
+                print(
+                    f"{self._name}이(가) 몬스터의 공격을 살짝 피해 원래 데미지({attack_info[2]})의 절반인 {half_damage} 데미지만 입었습니다.")
+                self.change_hp(half_damage)
+        else:
+            print(f"{self._name}이(가) 공격을 회피했습니다.")
+            self.change_hp()
+
 
 def create_player():
     # =============캐릭터 입력 값으로 객체 생성==========
