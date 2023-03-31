@@ -17,30 +17,44 @@ class Player(Character):
         super().show_status()
         print(f"MP : {self._current_mp} / {self._max_mp}")
 
-    # 플레이어가 몬스터에게 일반 공격할 때 들어가는 함수
-    def attack(self):
-        return super().attack()
+    # 플레이어가 몬스터에게 일반 공격할 때 들어가는 함수 -> 없어도 되는 듯?
+    # def attack(self):
+    #     return super().attack()
 
-    def get_exp(self, is_alive):
-        # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 경험치 얻기
-        if is_alive:
-            pass
-        else:
-            if self._exp >= self._exp_limit:  # exp_limit달성 시 level_up함수 호출
-                self.level_up()
-            exp_ = (self._max_level - self._level + 1) * 15
-            self._exp += random.randint(int(exp_*0.8), int(exp_*1.2))
-            print(f'{self._exp}포인트를 획득하였습니다! 현재 경험치: {self._exp}/{self._exp_limit}')
+    # 전투씬에 이미 보상 구현됨(골드, 경험치)
+    # def get_exp(self, is_alive):
+    #     # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 경험치 얻기
+    #     if is_alive:
+    #         pass
+    #     else:
+    #         if self._exp >= self._exp_limit:  # exp_limit달성 시 level_up함수 호출
+    #             self.level_up()
+    #         exp_ = (self._max_level - self._level + 1) * 15
+    #         self._exp += random.randint(int(exp_*0.8), int(exp_*1.2))
+    #         print(f'{self._exp}포인트를 획득하였습니다! 현재 경험치: {self._exp}/{self._exp_limit}')
 
-    def get_gold(self, is_alive):
-        # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 골드 얻기
-        if is_alive:
-            pass
+    # def get_gold(self, is_alive):
+    #     # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 골드 얻기
+    #     if is_alive:
+    #         pass
+    #     else:
+    #         gold_ = (self._max_level - self._level + 1) * \
+    #             15  # 경험치는 레벨 비례로 덜 얻게 했는데 골드 기준 생각해보기
+    #         self._gold += random.randint(int(gold_*0.7), int(gold_*1.3))
+    #         print(f'{self._gold}골드를 획득하였습니다! 현재 골드: {self._gold}')
+
+    def show_hp(self):
+        if self._current_hp == 0:
+            print(f"{self._name}의 체력이 다 떨어졌습니다.")
         else:
-            gold_ = (self._max_level - self._level + 1) * \
-                15  # 경험치는 레벨 비례로 덜 얻게 했는데 골드 기준 생각해보기
-            self._gold += random.randint(int(gold_*0.7), int(gold_*1.3))
-            print(f'{self._gold}골드를 획득하였습니다! 현재 골드: {self._gold}')
+            print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}")
+            self.show_mp()
+
+    def change_mp(self, value: int):
+        self._current_mp -= value
+
+    def show_mp(self):
+        print(f"{self._name}의 남은 MP : {self._current_mp}/{self._max_mp}")
 
     def level_up(self):
         level_up_info = 10
@@ -77,27 +91,40 @@ class Magician(Player):
 
     # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
-        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        while True:
+            attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
+            if attack_type != '1' and attack_type != '2':
+                print("잘못된 입력입니다. 1 또는 2를 입력하세요")
+            else:
+                break
         if attack_type == '1':
             return super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
-                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                while True:
+                    attack_type2 = str(
+                        input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                    if attack_type2 != '1' and attack_type2 != '2':
+                        print("잘못된 입력입니다. 1 또는 2를 입력하세요")
+                    else:
+                        break
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 메테오!!!!!')      
-                    skill_damage = random.randint(int(self._magic_power * 0.8), int(self._magic_power * 1.2))
+                    print(f'{self._name}의 메테오!!!!!')
+                    skill_damage = random.randint(
+                        int(self._magic_power * 0.8), int(self._magic_power * 1.2))
                     if attack_type2 == '1':
-                        return [True, True, skill_damage]
+                        return [True, True, skill_damage, False]
                     elif attack_type2 == '2':
-                        return [True, False, skill_damage]
+                        return [True, False, skill_damage, False]
                 else:
-                    return [False, False, 0] # 이부분 [false false 0]으로
+                    return [False, False, 0, False]  # 이부분 [false false 0]으로
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
-                super().attack()
+                return super().attack()
 
 # ======Knight, Thief class 추후 추가해주세요=====
+
 
 class Knight(Player):
     def __init__(self, name):
@@ -113,21 +140,37 @@ class Knight(Player):
 
     # 전사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
-        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
+        while True:
+            attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
+            if attack_type != '1' and attack_type != '2':
+                print("잘못된 입력입니다. 1 또는 2를 입력하세요")
+            else:
+                break
         if attack_type == '1':
             return super().attack()
         elif attack_type == '2':
-            attack_type2 = str(input("공격 유형을 선택해주십시오. 1:광역공격, 2:타겟공격: "))
-            if random.random() > 0.01:
-                print(f'{self._name}의 차원 가르기!!!!!')
-                skill_damage = random.randint(
-                    int(self._strength_power * 0.8), int(self._strength_power * 1.2))
-                if attack_type2 == '1':
-                    return [True, True, skill_damage]
-                elif attack_type2 == '2':
-                    return [True, False, skill_damage]
+            if self._current_mp > 20:
+                while True:
+                    attack_type2 = str(
+                        input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                    if attack_type2 != '1' and attack_type2 != '2':
+                        print("잘못된 입력입니다. 1 또는 2를 입력하세요")
+                    else:
+                        break
+                self._current_mp = max(self._current_mp-20, 0)
+                if random.random() > 0.01:
+                    print(f'{self._name}의 차원 가르기!!!!!')
+                    skill_damage = random.randint(
+                        int(self._strength_power * 0.8), int(self._strength_power * 1.2))
+                    if attack_type2 == '1':
+                        return [True, True, skill_damage, False]
+                    elif attack_type2 == '2':
+                        return [True, False, skill_damage, False]
+                else:
+                    return [False, False, 0, False]  # 이부분 [false false 0]으로
             else:
-                return [False, False, 0]
+                print("MP가 부족합니다. 일반공격을 시도합니다.")
+                return super().attack()
 
 
 class Thief(Player):
@@ -144,29 +187,42 @@ class Thief(Player):
 
     # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
-        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        while True:
+            attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
+            if attack_type != '1' and attack_type != '2':
+                print("잘못된 입력입니다. 1 또는 2를 입력하세요")
+            else:
+                break
         if attack_type == '1':
             return super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
-                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                while True:
+                    attack_type2 = str(
+                        input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                    if attack_type2 != '1' and attack_type2 != '2':
+                        print("잘못된 입력입니다. 1 또는 2를 입력하세요")
+                    else:
+                        break
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 새비지 블로우!!!!!')      
-                    skill_damage = random.randint(int(self._dexterity_power * 0.8), int(self._dexterity_power * 1.2))
+                    print(f'{self._name}의 쌔비지 블로우!!!!!')
+                    skill_damage = random.randint(
+                        int(self._dexterity_power * 0.8), int(self._dexterity_power * 1.2))
                     if attack_type2 == '1':
-                        return [True, True, skill_damage]
+                        return [True, True, skill_damage, False]
                     elif attack_type2 == '2':
-                        return [True, False, skill_damage]
+                        return [True, False, skill_damage, False]
                 else:
-                    return [False, False, 0]
+                    return [False, False, 0, False]  # 이부분 [false false 0]으로
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
-                super().attack()
+                return super().attack()
 
     # 도적의 공격 피하기 스킬 (전사는 레벨업할수록 hp 더 커지고, 마법사는 mp 더 커지고, 도적은 회피율 증가)
+
     def attacked(self, attack_info: list):
-        # attack_info = [is_attack_success, is_area_attack, damage]
+        # attack_info = [is_attack_success, is_area_attack, damage, is_critical]
         luck = self._dexterity_power * 0.008
         half_damage = int(attack_info[2] / 2)
         if attack_info[0]:
@@ -210,7 +266,7 @@ def create_player():
     career_skill = {
         "1": "메테오",  # meteor
         "2": "차원가르기",  # demension_slicing
-        "3": "세비지 블로우"  # savage_blow
+        "3": "쌔비지 블로우"  # savage_blow
     }
 
     player_obj = career_dict[player_career]
@@ -220,7 +276,9 @@ def create_player():
 
     이름: {player_obj._name} / 직업: {career_list[player_career]}
 
-    체력: {player_obj._max_hp} / 특수스킬: {career_skill[player_career]} 
+    체력: {player_obj._max_hp} / 마력: {player_obj._max_mp}
+    
+    특수스킬: {career_skill[player_career]} 
     """)
     return player_obj
 
