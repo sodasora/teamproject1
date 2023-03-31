@@ -77,27 +77,30 @@ class Magician(Player):
 
     # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
-        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
         if attack_type == '1':
             super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
-                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                attack_type2 = str(
+                    input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 메테오!!!!!')      
-                    skill_damage = random.randint(int(self._magic_power * 0.8), int(self._magic_power * 1.2))
+                    print(f'{self._name}의 메테오!!!!!')
+                    skill_damage = random.randint(
+                        int(self._magic_power * 0.8), int(self._magic_power * 1.2))
                     if attack_type2 == '1':
                         return [True, True, skill_damage]
                     elif attack_type2 == '2':
                         return [True, False, skill_damage]
                 else:
-                    return [False, False, 0] # 이부분 [false false 0]으로
+                    return [False, False, 0]  # 이부분 [false false 0]으로
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 super().attack()
 
 # ======Knight, Thief class 추후 추가해주세요=====
+
 
 class Knight(Player):
     def __init__(self, name):
@@ -144,16 +147,18 @@ class Thief(Player):
 
     # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
-        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))               
+        attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
         if attack_type == '1':
             super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
-                attack_type2 = str(input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
+                attack_type2 = str(
+                    input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 새비지 블로우!!!!!')      
-                    skill_damage = random.randint(int(self._dexterity_power * 0.8), int(self._dexterity_power * 1.2))
+                    print(f'{self._name}의 새비지 블로우!!!!!')
+                    skill_damage = random.randint(
+                        int(self._dexterity_power * 0.8), int(self._dexterity_power * 1.2))
                     if attack_type2 == '1':
                         return [True, True, skill_damage]
                     elif attack_type2 == '2':
@@ -163,6 +168,7 @@ class Thief(Player):
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 super().attack()
+
 
 def create_player():
     # =============캐릭터 입력 값으로 객체 생성==========
@@ -175,7 +181,7 @@ def create_player():
 
     while True:
         player_career = input("""\n직업을 선택해주세요. (1~3)
-    1. 마법사 2. 전사 3. 도적 
+    1. 마법사 2. 전사 3. 도적
     """)
         if player_career != "1" and player_career != "2" and player_career != "3":
             print("잘못된 입력입니다. 1~3 사이 숫자를 입력하세요")
@@ -201,11 +207,11 @@ def create_player():
     player_obj = career_dict[player_career]
     print(
         f"""
-    ***플레이어가 생성되었습니다!*** 
+    ***플레이어가 생성되었습니다!***
 
     이름: {player_obj._name} / 직업: {career_list[player_career]}
 
-    체력: {player_obj._max_hp} / 특수스킬: {career_skill[player_career]} 
+    체력: {player_obj._max_hp} / 특수스킬: {career_skill[player_career]}
     """)
     return player_obj
 

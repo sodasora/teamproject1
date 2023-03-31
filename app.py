@@ -171,6 +171,7 @@ while not game_exit:
             return True
 
         is_battle = is_battle_or_not()
+        is_in_dungeon = False  # ✅✅ 도망쳤을 때 던전에서 탈출
 
         # 4. 전투 돌입
         while is_battle:
@@ -210,7 +211,7 @@ while not game_exit:
                 monster_is_alive = monster.get_status("is_alive")
                 # ✅ is_alive ❌ alive
 
-                if not monster_is_alive:
+                if not monster_is_alive[0]:  # ✅✅ 몬스터 안 죽는 버그 수정
                     print(f"{monster_name_list[i]}을(를) 무찔렀습니다!")
                     monster_list.pop(i)
                     monster_name_list.pop(i)
@@ -255,6 +256,6 @@ while not game_exit:
                 break
 
 
-####### 수정 사항 #######
+####### 수정해야 할 사항 #######
 # 1. 게임 밸런스
 # 2.
