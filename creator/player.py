@@ -45,8 +45,8 @@ class Player(Character):
             setattr(self, f"_{key}", value)
 
     def get_status(self, *args):
-        arg = args[0]
-        return getattr(self, f"_{arg}")
+        args_list = [getattr(self, f"_{arg}") for arg in args]
+        return args_list
 
 
 # ===========Magician class========
@@ -61,7 +61,14 @@ class Magician(Player):
         level_up_info = 10
         self._magic_power += level_up_info + 30
         print(
-            f"\nLevel UP! 현재 스텟 - 파워:{self._power}, 마법파워:{self._magic_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
+            f"""
+                    *** Level UP! 현재 스텟 ***
+                이름    : {self._name}
+                경험치  : {self._exp}/{self._exp_limit}
+                HP      : {self._current_hp}/{self._max_hp}
+                MP      : {self._current_mp}/{self._max_mp}
+                골드    : {self._gold}
+                    """)
 
     # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
@@ -110,7 +117,14 @@ class Knight(Player):
         level_up_info = 10
         self._strength_power += level_up_info + 30
         print(
-            f"\nLevel UP! 현재 스텟 - 파워:{self._power}, 전사파워:{self._strength_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
+            f"""
+                    *** Level UP! 현재 스텟 ***
+                이름    : {self._name}
+                경험치  : {self._exp}/{self._exp_limit}
+                HP      : {self._current_hp}/{self._max_hp}
+                MP      : {self._current_mp}/{self._max_mp}
+                골드    : {self._gold}
+                    """)
 
     # 전사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
@@ -157,7 +171,14 @@ class Thief(Player):
         level_up_info = 10
         self._dexterity_power += level_up_info + 30
         print(
-            f"\nLevel UP! 현재 스텟 - 파워:{self._power}, 도적파워:{self._dexterity_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp} ")
+            f"""
+                    *** Level UP! 현재 스텟 ***
+                이름    : {self._name}
+                경험치  : {self._exp}/{self._exp_limit}
+                HP      : {self._current_hp}/{self._max_hp}
+                MP      : {self._current_mp}/{self._max_mp}
+                골드    : {self._gold}
+                    """)
 
     # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
