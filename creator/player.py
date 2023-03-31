@@ -59,7 +59,7 @@ class Magician(Player):
     def level_up(self):  # level_up 메소드 오버라이딩
         super().level_up()
         level_up_info = 10
-        self._max_mp = level_up_info * 15
+        self._max_mp += level_up_info * 15
         self._current_mp = self._max_mp
         self._magic_power += level_up_info + 30
         print(
@@ -106,7 +106,7 @@ class Magician(Player):
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 return super().attack()
 
-# ======Knight, Thief class 추후 추가해주세요=====
+# ======Knight class=====
 
 
 class Knight(Player):
@@ -117,7 +117,7 @@ class Knight(Player):
     def level_up(self):  # super로 메소드 호출하고, 추가기능만 오버라이딩
         super().level_up()
         level_up_info = 10
-        self._max_hp = level_up_info * 15
+        self._max_hp += level_up_info * 15
         self._current_hp = self._max_hp
         self._strength_power += level_up_info + 30
         print(
@@ -163,6 +163,8 @@ class Knight(Player):
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 return super().attack()
+
+# ======Thief class=====
 
 
 class Thief(Player):
