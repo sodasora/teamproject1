@@ -1,13 +1,10 @@
-from time import sleep
-import os
-import sys
 import random
 # 사용자 정의 모듈
 from creator.player import create_player, Player
 from creator.monster import Monster
 from scripts.script import *
 
-# intro()
+intro()
 
 player = create_player()
 
@@ -89,12 +86,12 @@ while not game_exit:
                     "name", "max_hp", "current_hp", "max_mp", "current_mp", "gold", "exp_limit", "exp")
                 print(
                     f"""
-                    *** 내 현재 스테이터스***
-                    이름        : {name}
-                    한계 경험치 : {exp_limit}   / 현재 경험치 : {exp}
-                    최대 HP     : {max_hp}     / 현재 HP     : {current_hp}
-                    최대 MP     : {max_mp}     / 현재 MP     : {current_mp}
-                    골드 소유량 : {gold}
+                    *** 플레이어의 현재 상태 ***
+                        이름    : {name}
+                        경험치  : {exp}/{exp_limit}
+                        HP      : {current_hp}/{max_hp}
+                        MP      : {current_mp}/{max_mp}
+                        골드    : {gold}
                     """)
 
         return dungeon_level
@@ -105,6 +102,9 @@ while not game_exit:
     # 1. 던전 진입
     is_in_dungeon = True
     while is_in_dungeon:
+
+        temp_gold = 0
+        temp_exp = 0
 
         # 2. 몬스터 생성
         def create_monster_list_with_name_list(_monster_dict: dict):
@@ -200,6 +200,7 @@ while not game_exit:
         is_in_dungeon = False
 
         # is_battle이 True일 때, 전투 돌입
+
         # 4. 전투 돌입
         while is_battle:
             # 5. 플레이어가 공격
@@ -250,23 +251,25 @@ while not game_exit:
                         monster_list[i] = False
                         monster_name_list[i] = False
 
-                    # 보상 누적
-                    exp = 15 + round((dungeon_level*1.5) * 5)
-                    gold = 10 + dungeon_level * 5 + random.randint(0, 10)
+                        # 보상 누적
+                        exp = 15 + round((dungeon_level*1.5) * 5)
+                        gold = 10 + dungeon_level * 5 + random.randint(0, 10)
 
-                    reward[0] += exp
-                    reward[1] += gold
+                        temp_exp += exp
+                        temp_gold += gold
+
+                        reward[0] += exp
+                        reward[1] += gold
 
             if not any(monster_list):
                 print("전투에서 승리했습니다.")
-
                 # exp = reward[0]
                 # gold = reward[1]
 
                 player.change_status(exp=reward[0], gold=reward[1])
 
                 print(
-                    f"보상으로 {reward[1]} 골드와 {reward[0]} 경험치를 얻었습니다.", end="\n\n")
+                    f"보상으로 {temp_gold} 골드와 {temp_exp} 경험치를 얻었습니다.", end="\n\n")
 
                 if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
                     player.level_up()

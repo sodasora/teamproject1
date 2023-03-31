@@ -59,17 +59,17 @@ class Magician(Player):
     def level_up(self):  # level_up 메소드 오버라이딩
         super().level_up()
         level_up_info = 10
-        self._max_mp = level_up_info * 15
+        self._max_mp += level_up_info * 15
         self._current_mp = self._max_mp
         self._magic_power += level_up_info + 30
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
-                이름    : {self._name}
-                경험치  : {self._exp}/{self._exp_limit}
-                HP      : {self._current_hp}/{self._max_hp}
-                MP      : {self._current_mp}/{self._max_mp}
-                골드    : {self._gold}
+                    이름    : {self._name}
+                    경험치  : {self._exp}/{self._exp_limit}
+                    HP      : {self._current_hp}/{self._max_hp}
+                    MP      : {self._current_mp}/{self._max_mp}
+                    골드    : {self._gold}
                     """)
 
     # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
@@ -117,17 +117,17 @@ class Knight(Player):
     def level_up(self):  # super로 메소드 호출하고, 추가기능만 오버라이딩
         super().level_up()
         level_up_info = 10
-        self._max_hp = level_up_info * 15
+        self._max_hp += level_up_info * 15
         self._current_hp = self._max_hp
         self._strength_power += level_up_info + 30
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
-                이름    : {self._name}
-                경험치  : {self._exp}/{self._exp_limit}
-                HP      : {self._current_hp}/{self._max_hp}
-                MP      : {self._current_mp}/{self._max_mp}
-                골드    : {self._gold}
+                    이름    : {self._name}
+                    경험치  : {self._exp}/{self._exp_limit}
+                    HP      : {self._current_hp}/{self._max_hp}
+                    MP      : {self._current_mp}/{self._max_mp}
+                    골드    : {self._gold}
                     """)
 
     # 전사 플레이어가 몬스터를 공격할 때 들어가는 함수
@@ -177,11 +177,11 @@ class Thief(Player):
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
-                이름    : {self._name}
-                경험치  : {self._exp}/{self._exp_limit}
-                HP      : {self._current_hp}/{self._max_hp}
-                MP      : {self._current_mp}/{self._max_mp}
-                골드    : {self._gold}
+                    이름    : {self._name}
+                    경험치  : {self._exp}/{self._exp_limit}
+                    HP      : {self._current_hp}/{self._max_hp}
+                    MP      : {self._current_mp}/{self._max_mp}
+                    골드    : {self._gold}
                     """)
 
     # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
@@ -280,7 +280,7 @@ def create_player():
 
     이름: {player_obj._name} / 직업: {career_list[player_career]}
 
-    체력: {player_obj._max_hp} / 마나: {player_obj._max_mp}
+    HP: {player_obj._max_hp} / MP: {player_obj._max_mp}
     
     특수스킬: {career_skill[player_career]} 
     """)
