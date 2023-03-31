@@ -123,14 +123,14 @@ while not game_exit:
             _monster_name_list = []
 
             p = random.random()
-            # if p < 0.1:
-            #     func(_monster_dict, _monster_list, _monster_name_list, 1)
+            if p < 0.1:
+                func(_monster_dict, _monster_list, _monster_name_list, 1)
 
-            # elif p < 0.8:
-            #     func(_monster_dict, _monster_list, _monster_name_list, 2)
+            elif p < 0.8:
+                func(_monster_dict, _monster_list, _monster_name_list, 2)
 
-            # else:
-            func(_monster_dict, _monster_list, _monster_name_list, 3)
+            else:
+                func(_monster_dict, _monster_list, _monster_name_list, 3)
 
             return _monster_list, _monster_name_list
 
