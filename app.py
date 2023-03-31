@@ -202,13 +202,18 @@ while not game_exit:
             return True
 
         is_battle = is_battle_or_not()
-        is_in_dungeon = False  # ✅✅ 도망쳤을 때 마을로 복귀
 
+        # is_battle이 False일 때, 던전에서 탈출
+        is_in_dungeon = False
+
+        # is_battle이 True일 때, 전투 돌입
+        exp = 0
+        gold = 0
+        reward = [exp, gold]
         # 4. 전투 돌입
         while is_battle:
             # 보상
             # rewards에는 몬스터가 죽을 때마다 reward가 append된다. reward = [exp, gold]
-            rewards = []
 
             # 5. 플레이어가 공격
             # attack_info = [is_attack_success, is_area_attack, damage]
@@ -256,23 +261,23 @@ while not game_exit:
                     exp = 15 + round((dungeon_level*1.5) * 5)
                     gold = 10 + dungeon_level * 5 + random.randint(0, 10)
 
-                    print(f"exp : {exp}, gold : {gold}")
-                    reward = [exp, gold]
-                    rewards.append(reward)
+                    print(f"\nexp : {exp}, gold : {gold}\n")
+
+                    reward[0] += exp
+                    reward[1] += gold
+
+            print(f"\n{reward}\n")
 
             if not monster_list:
                 print("전투에서 승리했습니다.")
-                # 보상 획득 및 전투 종료
-                exp = 0
-                gold = 0
-                for reward in rewards:
-                    exp += reward[0]
-                    gold += reward[1]
 
-                player.change_status(gold=gold, exp=exp)
-                print(f"보상으로 {gold} 골드와 {exp} 경험치를 얻었습니다.", end="\n\n")
+                player.change_status(exp=exp, gold=gold)
+                print(
+                    f"보상으로 {reward[1]} 골드와 {reward[0]} 경험치를 얻었습니다.", end="\n\n")
+
                 if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
                     player.level_up()
+
                 is_in_dungeon = False
                 break
 
