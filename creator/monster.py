@@ -51,19 +51,3 @@ class Monster(Character):
 
     def get_status(self, *args):
         return [getattr(self, f"_{arg}") for arg in args]
-
-
-dict_monster_rank1 = {
-    "1": Monster("좀비", 1, "저주"), "2": Monster("구울", 1, "광신"), "3": Monster("가시 쥐", 1, "축복받은 조준"),
-    "4": Monster("가시 마귀", 1, "신성한 번개"), "5": Monster("가시 야수", 1, "신성한 불꽃"), "6": Monster("서슬 가시", 1, "위세"),
-    "7": Monster("설인", 1, "냉기 강화"), "8": Monster("어둠의 사냥꾼", 1, "암흑 화살")
-}
-
-dict_monster_rank2 = {
-    "1": Monster("미라", 2, "메테오"), "2": Monster("메마른 시체", 2, "세비지 블로우"), "3": Monster("망자", 2, "암흑 주술"),
-    "4": Monster("수호자", 2, "신성한 불꽃"), "5": Monster("사브르 고양이", 2, "다발 사격"), "6": Monster("모래 구더기", 2, "스톤 스킨")
-}
-
-dict_monster_rank3 = {
-    "1": Monster("거대 거미", 3, "멀티플 샷"), "2": Monster("저승 꼭두각시", 3, "순간 이동"), "3": Monster("황혼의 영혼", 3, "암흑 혼령")
-}

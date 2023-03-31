@@ -51,21 +51,22 @@ while not game_exit:
 
         while not go_dungeon:
             dungeon_level = None
-            answer_list = [1, 2]
+            answer_list = ["1", "2", "3"]
 
-            print("1. 상점 방문 2. 던전 탐색")
-            answer = int(input("어디로 향하시겠습니까? : "))
+            print("1. 상점 방문 2. 던전 탐색 3. 내 스테이터스 확인")
+            answer = input("어디로 향하시겠습니까? : ")
 
             while answer not in answer_list:
-                answer = int(input("\n입력이 잘못됐습니다. 어디로 향하시겠습니까? : "))
+                answer = input("\n입력이 잘못됐습니다. 어디로 향하시겠습니까? : ")
 
-            while answer == 1:
+            answer = int(answer)
+
+            if answer == 1:
                 # ❌ 상점 구현
                 print("\n상점을 방문했습니다.")
                 print("\n상점에서 나왔습니다.")
-                break
 
-            if answer == 2:
+            elif answer == 2:
                 dungeon_level_list = ["1", "2", "3"]  # ✅✅✅ 던전 선택시 입력값 유효성 검사
 
                 print("\n던전을 탐색합니다. 던전은 총 세 종류입니다.")
@@ -88,6 +89,26 @@ while not game_exit:
                     print("상급 던전으로 향합니다.")
 
                 go_dungeon = True
+
+            else:
+                # ✅✅✅ 마을에서 내 스테이터스 확인
+                [name, max_hp, current_hp, max_mp, current_mp, gold, exp_limit, exp] = player.get_status(
+                    "name", "max_hp", "current_hp", "max_mp", "current_mp", "gold", "exp_limit", "exp")
+                print(
+                    f"""
+                    *** 내 현재 스테이터스***
+
+                    이름        : {name}
+
+                    한계 경험치 : {exp_limit}   / 현재 경험치 : {exp}
+
+                    최대 HP     : {max_hp}     / 현재 HP     : {current_hp}
+
+                    최대 MP     : {max_mp}     / 현재 MP     : {current_mp}
+
+                    골드 소유량 : {gold}
+
+                    """)
 
         return dungeon_level
 

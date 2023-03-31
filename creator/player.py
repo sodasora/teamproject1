@@ -57,8 +57,8 @@ class Player(Character):
             setattr(self, f"_{key}", value)
 
     def get_status(self, *args):
-        arg = args[0]
-        return getattr(self, f"_{arg}")
+        args_list = [getattr(self, f"_{arg}") for arg in args]
+        return args_list
 
 
 # ===========Magician class========
