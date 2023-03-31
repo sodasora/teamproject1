@@ -31,6 +31,10 @@ monster_dict = [
 game_exit = False
 first_town_visit = True
 
+exp = 0
+gold = 0
+reward = [exp, gold]
+
 while not game_exit:
     def in_town(player: Player, first_town_visit: bool):
         if first_town_visit:
@@ -196,10 +200,6 @@ while not game_exit:
         is_in_dungeon = False
 
         # is_battle이 True일 때, 전투 돌입
-        exp = 0
-        gold = 0
-        reward = [exp, gold]
-
         # 4. 전투 돌입
         while is_battle:
             # 5. 플레이어가 공격

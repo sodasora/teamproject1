@@ -6,7 +6,7 @@ class Character:
         self._name = name
         self._current_hp = 100
         self._max_hp = 100
-        self._power = 30
+        self._power = 10
         self._level = 1
         self._max_level = 3
         self._is_alive = True
@@ -56,4 +56,4 @@ class Character:
             self.show_hp()
 
     def show_hp(self):
-        print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}")
+        print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}\n")
