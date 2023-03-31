@@ -14,27 +14,26 @@ player = create_player()
 # welcome_player(me.get_status("name"))
 
 # 몬스터 사전
+
 monster_dict = [
     {
-        1: Monster("좀비", 1, "저주"), 2: Monster("구울", 1, "광신"), 3: Monster("가시 쥐", 1, "축복받은 조준"),
-        4: Monster("가시 마귀", 1, "신성한 번개"), 5: Monster("가시 야수", 1, "신성한 불꽃"), 6: Monster("서슬 가시", 1, "위세"),
-        7: Monster("설인", 1, "냉기 강화"), 8: Monster("어둠의 사냥꾼", 1, "암흑 화살")
+        "1": Monster("좀비", 1, "저주"), "2": Monster("구울", 1, "광신"), "3": Monster("황혼의 유령", 1, "축복받은 조준"),
+        "4": Monster("가시 마귀", 1, "가시폭풍"), "5": Monster("가시 야수", 1, "서슬퍼런 칼날"), "6": Monster("서슬 가시", 1, "위세"),
+        "7": Monster("가시 박쥐", 1, "맹공"), "8": Monster("어둠의 사냥꾼", 1, "암흑 화살")
     },
-
     {
-        1: Monster("미라", 2, "메테오"), 2: Monster("메마른 시체", 2, "세비지 블로우"), 3: Monster("망자", 2, "암흑 주술"),
-        4: Monster("수호자", 2, "신성한 불꽃"), 5: Monster("사브르 고양이", 2, "다발 사격"), 6: Monster("모래 구더기", 2, "스톤 스킨")
+        "1": Monster("미라", 2, "암흑 최면"), "2": Monster("발굴된 시체", 2, "독"), "3": Monster("망자", 2, "암흑 주술"),
+        "4": Monster("카데바", 2, "감염"), "5": Monster("지네", 2, "근접"), "6": Monster("모래 구더기", 2, "스톤 스킨")
     },
-
     {
-        1: Monster("거대 거미", 3, "멀티플 샷"), 2: Monster("저승 꼭두각시", 3, "순간 이동"), 3: Monster("황혼의 영혼", 3, "암흑 혼령")
-    }
+        "1": Monster("거대 거미", 3, "멀티플 샷"), "2": Monster("저승 꼭두각시", 3, "순간 이동"), "3": Monster("황혼의 영혼", 3, "암흑 혼령")
+    },
 ]
 
 # 수정해야할 사항
 # 0. 밸런스
 # 1. 던전 선택 오류 ✅✅✅
-# 2. 공격시 오류 ✅✅✅
+# 2. 공격 시 오류 ✅✅✅
 # 3. 마을에서 현재 상태 볼 수 있게
 
 
@@ -107,9 +106,9 @@ while not game_exit:
                 for _ in range(round):
                     length = len(__monster_dict)
                     monster_number = random.randint(1, length)
-                    __monster_list.append(__monster_dict[monster_number])
+                    __monster_list.append(__monster_dict[str(monster_number)])
                     __monster_name_list.append(
-                        __monster_dict[monster_number].get_status("name")[0])  # ✅✅ 몬스터 이름 오류 ['서슬 가시'] => 서슬 가시
+                        __monster_dict[str(monster_number)].get_status("name")[0])  # ✅✅ 몬스터 이름 오류 ['서슬 가시'] => 서슬 가시
 
             _monster_list = []
             _monster_name_list = []
