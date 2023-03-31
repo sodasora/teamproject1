@@ -28,7 +28,7 @@ class Player(Character):
         self._current_mp -= value
 
     def show_mp(self):
-        print(f"{self._name}의 남은 MP : {self._current_mp}/{self._max_mp}")
+        print(f"{self._name}의 남은 MP : {self._current_mp}/{self._max_mp}\n")
 
     def level_up(self):
         level_up_info = 10
@@ -59,6 +59,8 @@ class Magician(Player):
     def level_up(self):  # level_up 메소드 오버라이딩
         super().level_up()
         level_up_info = 10
+        self._max_mp = level_up_info * 15
+        self._current_mp = self._max_mp
         self._magic_power += level_up_info + 30
         print(
             f"""
@@ -81,7 +83,7 @@ class Magician(Player):
         if attack_type == '1':
             return super().attack()
         elif attack_type == '2':
-            if self._current_mp > 20:
+            if self._current_mp >= 20:
                 while True:
                     attack_type2 = str(
                         input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
@@ -91,7 +93,7 @@ class Magician(Player):
                         break
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 메테오!!!!!')
+                    print(f'\n{self._name}의 메테오!!!!!')
                     skill_damage = random.randint(
                         int(self._magic_power * 0.8), int(self._magic_power * 1.2))
                     if attack_type2 == '1':
@@ -115,6 +117,8 @@ class Knight(Player):
     def level_up(self):  # super로 메소드 호출하고, 추가기능만 오버라이딩
         super().level_up()
         level_up_info = 10
+        self._max_hp = level_up_info * 15
+        self._current_hp = self._max_hp
         self._strength_power += level_up_info + 30
         print(
             f"""
@@ -137,7 +141,7 @@ class Knight(Player):
         if attack_type == '1':
             return super().attack()
         elif attack_type == '2':
-            if self._current_mp > 20:
+            if self._current_mp >= 20:
                 while True:
                     attack_type2 = str(
                         input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
@@ -147,7 +151,7 @@ class Knight(Player):
                         break
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 차원 가르기!!!!!')
+                    print(f'\n{self._name}의 차원 가르기!!!!!')
                     skill_damage = random.randint(
                         int(self._strength_power * 0.8), int(self._strength_power * 1.2))
                     if attack_type2 == '1':
@@ -191,7 +195,7 @@ class Thief(Player):
         if attack_type == '1':
             return super().attack()
         elif attack_type == '2':
-            if self._current_mp > 20:
+            if self._current_mp >= 20:
                 while True:
                     attack_type2 = str(
                         input("\n공격 대상을 선택해주십시오. 1:전부 공격하기, 2:타겟몬스터 고르기: "))
@@ -201,7 +205,7 @@ class Thief(Player):
                         break
                 self._current_mp = max(self._current_mp-20, 0)
                 if random.random() > 0.01:
-                    print(f'{self._name}의 쌔비지 블로우!!!!!')
+                    print(f'\n{self._name}의 쌔비지 블로우!!!!!')
                     skill_damage = random.randint(
                         int(self._dexterity_power * 0.8), int(self._dexterity_power * 1.2))
                     if attack_type2 == '1':

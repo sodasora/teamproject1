@@ -13,8 +13,6 @@ player = create_player()
 
 # welcome_player(me.get_status("name"))
 
-# 몬스터 사전
-
 monster_dict = [
     {
         "1": Monster("좀비", 1, "저주"), "2": Monster("구울", 1, "광신"), "3": Monster("황혼의 유령", 1, "축복받은 조준"),
@@ -29,13 +27,6 @@ monster_dict = [
         "1": Monster("거대 거미", 3, "멀티플 샷"), "2": Monster("저승 꼭두각시", 3, "순간 이동"), "3": Monster("황혼의 영혼", 3, "암흑 혼령")
     },
 ]
-
-# 수정해야할 사항
-# 0. 밸런스
-# 1. 던전 선택 오류 ✅✅✅
-# 2. 공격 시 오류 ✅✅✅
-# 3. 마을에서 현재 상태 볼 수 있게
-
 
 game_exit = False
 first_town_visit = True
@@ -62,12 +53,11 @@ while not game_exit:
             answer = int(answer)
 
             if answer == 1:
-                # ❌ 상점 구현
                 print("\n상점을 방문했습니다.")
                 print("\n상점에서 나왔습니다.")
 
             elif answer == 2:
-                dungeon_level_list = ["1", "2", "3"]  # ✅✅✅ 던전 선택시 입력값 유효성 검사
+                dungeon_level_list = ["1", "2", "3"]
 
                 print("\n던전을 탐색합니다. 던전은 총 세 종류입니다.")
                 print("1. 초급 던전 2. 중급 던전 3. 상급 던전 ")
@@ -91,7 +81,6 @@ while not game_exit:
                 go_dungeon = True
 
             else:
-                # ✅✅✅ 마을에서 내 스테이터스 확인
                 [name, max_hp, current_hp, max_mp, current_mp, gold, exp_limit, exp] = player.get_status(
                     "name", "max_hp", "current_hp", "max_mp", "current_mp", "gold", "exp_limit", "exp")
                 print(
@@ -109,8 +98,6 @@ while not game_exit:
     dungeon_level = in_town(player, first_town_visit)
     first_town_visit = False
 
-    # def in_dungeon(player:Player, dungeon_level: int):
-    #     return None
     # 1. 던전 진입
     is_in_dungeon = True
     while is_in_dungeon:
@@ -130,7 +117,7 @@ while not game_exit:
                     already_used_monster_number_list.append(monster_number)
                     __monster_list.append(__monster_dict[str(monster_number)])
                     __monster_name_list.append(
-                        __monster_dict[str(monster_number)].get_status("name")[0])  # ✅✅ 몬스터 이름 오류 ['서슬 가시'] => 서슬 가시
+                        __monster_dict[str(monster_number)].get_status("name")[0])
 
             _monster_list = []
             _monster_name_list = []
@@ -155,28 +142,30 @@ while not game_exit:
         for i, monster_name in enumerate(monster_name_list):
             monster_name_string += f"{i+1}. {monster_name} "
 
-        print("몬스터가 나타났다!")
+        print("\n\n==================================================================")
+        print("==================================================================")
+        print("======================= 몬스터가 나타났다! =======================")
+        print("==================================================================")
+        print("==================================================================\n\n")
+
         print(f"{monster_name_string}", end="\n\n")
 
         # 3. 전투 여부 선택
-
         def is_battle_or_not():
             no_answer_check = False
             yes_answer_list = ["y", "yes"]
             no_answer_list = ["n", "no"]
 
             answer = input("전투하시겠습니까? (Y/N) : ").lower()
-            print("")
 
             while answer not in yes_answer_list:
                 if answer in no_answer_list:
                     if not no_answer_check:
                         no_answer_check = True
                         answer = input("정말로 도망치시겠습니까? (Y/N) : ").lower()
-                        print("")
 
                         if answer in yes_answer_list:
-                            print("전투에서 비참하게 도망칩니다.")
+                            print("전투에서 비참하게 도망칩니다.\n")
                             return False
 
                         elif answer in no_answer_list:
@@ -192,24 +181,27 @@ while not game_exit:
                         print("")
 
                         if answer in yes_answer_list:
-                            print("전투에서 비참하게 도망칩니다.")
+                            print("전투에서 비참하게 도망칩니다.\n")
                             return False
 
                         elif answer in no_answer_list:
                             break
 
-            print("전투에 돌입합니다!")
+            print("\n전투에 돌입합니다!")
             return True
 
         is_battle = is_battle_or_not()
-        is_in_dungeon = False  # ✅✅ 도망쳤을 때 마을로 복귀
+
+        # is_battle이 False일 때, 던전에서 탈출
+        is_in_dungeon = False
+
+        # is_battle이 True일 때, 전투 돌입
+        exp = 0
+        gold = 0
+        reward = [exp, gold]
 
         # 4. 전투 돌입
         while is_battle:
-            # 보상
-            # rewards에는 몬스터가 죽을 때마다 reward가 append된다. reward = [exp, gold]
-            rewards = []
-
             # 5. 플레이어가 공격
             # attack_info = [is_attack_success, is_area_attack, damage]
             attack_info = player.attack()
@@ -228,6 +220,7 @@ while not game_exit:
                         print(f"{i+1}. {_monster_name}", end=" ")
                         target_list.append(str(i+1))
 
+                    print("")
                     target = input("목표를 선택하세요 : ")  # ✅✅✅ 몬스터 선택시 입력 유효성 검사
 
                     # 유효한 입력인지 확인
@@ -256,23 +249,23 @@ while not game_exit:
                     exp = 15 + round((dungeon_level*1.5) * 5)
                     gold = 10 + dungeon_level * 5 + random.randint(0, 10)
 
-                    print(f"exp : {exp}, gold : {gold}")
-                    reward = [exp, gold]
-                    rewards.append(reward)
+                    reward[0] += exp
+                    reward[1] += gold
 
             if not monster_list:
                 print("전투에서 승리했습니다.")
-                # 보상 획득 및 전투 종료
-                exp = 0
-                gold = 0
-                for reward in rewards:
-                    exp += reward[0]
-                    gold += reward[1]
 
-                player.change_status(gold=gold, exp=exp)
-                print(f"보상으로 {gold} 골드와 {exp} 경험치를 얻었습니다.", end="\n\n")
+                # exp = reward[0]
+                # gold = reward[1]
+
+                player.change_status(exp=reward[0], gold=reward[1])
+
+                print(
+                    f"보상으로 {reward[1]} 골드와 {reward[0]} 경험치를 얻었습니다.", end="\n\n")
+
                 if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
                     player.level_up()
+
                 is_in_dungeon = False
                 break
 
@@ -288,7 +281,6 @@ while not game_exit:
 
             # 10. 플레이어 생사 확인
             player_is_alive = player.get_status("is_alive")
-            # ✅ is_alive ❌ alive
             if not player_is_alive[0]:
                 print("게임이 종료됩니다.")  # ✅ 반복문 탈출 수정
                 is_in_dungeon = False

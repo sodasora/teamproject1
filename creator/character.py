@@ -56,4 +56,4 @@ class Character:
             self.show_hp()
 
     def show_hp(self):
-        print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}")
+        print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}\n")
