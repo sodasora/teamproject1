@@ -7,6 +7,7 @@ from creator.character import Character
 class Player(Character):
     def __init__(self, name):
         super().__init__(name)
+        self._power = 20
         self._current_mp = 100
         self._max_mp = 100
         self._exp = 0
@@ -31,12 +32,12 @@ class Player(Character):
         print(f"{self._name}의 남은 MP : {self._current_mp}/{self._max_mp}\n")
 
     def level_up(self):
-        level_up_info = 10
+        level_up_info = 5
         self._max_hp += level_up_info * 10
         self._max_mp += level_up_info * 10
         self._current_mp = self._max_mp  # current_hp에 max_hp값 할당,체력회복
         self._current_hp = self._max_hp
-        self._power += level_up_info + 10
+        self._power += level_up_info * 2
         self._exp = 0  # 경험치 초기화
         self._level += 1  # 플레이어 레벨 상승
 
@@ -58,10 +59,10 @@ class Magician(Player):
 
     def level_up(self):  # level_up 메소드 오버라이딩
         super().level_up()
-        level_up_info = 10
-        self._max_mp += level_up_info * 15
+        level_up_info = 5
+        self._max_mp += level_up_info * 5
         self._current_mp = self._max_mp
-        self._magic_power += level_up_info + 30
+        self._magic_power += level_up_info * 2
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
@@ -116,10 +117,10 @@ class Knight(Player):
 
     def level_up(self):  # super로 메소드 호출하고, 추가기능만 오버라이딩
         super().level_up()
-        level_up_info = 10
-        self._max_hp += level_up_info * 15
+        level_up_info = 5
+        self._max_hp += level_up_info * 5
         self._current_hp = self._max_hp
-        self._strength_power += level_up_info + 30
+        self._strength_power += level_up_info * 2
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
@@ -172,8 +173,8 @@ class Thief(Player):
 
     def level_up(self):
         super().level_up()
-        level_up_info = 10
-        self._dexterity_power += level_up_info + 30
+        level_up_info = 5
+        self._dexterity_power += level_up_info * 2
         print(
             f"""
                     *** Level UP! 현재 스텟 ***

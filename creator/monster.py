@@ -17,17 +17,17 @@ class Monster(Character):
             random_value = random.randint(60, 80)
             self._current_hp = random_value
             self._max_hp = random_value
-            self._power = random.randint(8, 15)
+            self._power = random.randint(7, 15)
         elif self._rank == 2:
             random_value = random.randint(80, 100)
             self._current_hp = random_value
             self._max_hp = random_value
-            self._power = random.randint(15, 25)
+            self._power = random.randint(25, 35)
         else:
             random_value = random.randint(100, 200)
             self._current_hp = random_value
             self._max_hp = random_value
-            self._power = random.randint(25, 35)
+            self._power = random.randint(50, 75)
 
     def show_skill(self):
         print(f"[{self._name}]몬스터가 [{self._skill}] 스킬을 사용했습니다.")

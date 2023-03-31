@@ -1,4 +1,5 @@
 import random
+import sys
 # 사용자 정의 모듈
 from creator.player import create_player, Player
 from creator.monster import Monster
@@ -7,8 +8,6 @@ from scripts.script import *
 intro()
 
 player = create_player()
-
-# welcome_player(me.get_status("name"))
 
 monster_dict = [
     {
@@ -31,6 +30,8 @@ first_town_visit = True
 exp = 0
 gold = 0
 reward = [exp, gold]
+
+is_clear_rank3 = False
 
 while not game_exit:
     def in_town(player: Player, first_town_visit: bool):
@@ -74,10 +75,15 @@ while not game_exit:
 
                 if dungeon_level == 1:
                     print("초급 던전으로 향합니다.")
+                    dungeon_script_level1()
+
                 elif dungeon_level == 2:
                     print("중급 던전으로 향합니다.")
+                    dungeon_script_level2()
+
                 else:
                     print("상급 던전으로 향합니다.")
+                    dungeon_script_level3()
 
                 go_dungeon = True
 
@@ -252,7 +258,10 @@ while not game_exit:
                         monster_name_list[i] = False
 
                         # 보상 누적
-                        exp = 15 + round((dungeon_level*1.5) * 5)
+
+                        exp = 30 + \
+                            random.randint(0, 5) - (player._level - 1) * 10
+
                         gold = 10 + dungeon_level * 5 + random.randint(0, 10)
 
                         temp_exp += exp
@@ -274,8 +283,19 @@ while not game_exit:
                 if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
                     player.level_up()
 
-                is_in_dungeon = False
-                break
+                if dungeon_level == 3 and not is_clear_rank3:
+                    is_clear_rank3 = True
+
+                    print("정말 대단한 일을 해내셨군요! 최종 보스들을 물리치고 에테리아 왕국을 위기에서 구해내셨습니다. ")
+                    print("이제 에테리아는 다시 평화로운 삶을 되찾게 되었습니다. 이제 당신은 에테리아의 영웅이 되었습니다. ")
+                    print("에테리아의 모든 주민들은 당신을 존경하며 감사하게 생각할 것 입니다.")
+                    print("\n(게임에서 승리하셨습니다. 3초 후 게임이 종료됩니다.)")
+                    sleep(3)
+                    sys.exit()
+
+                else:
+                    is_in_dungeon = False
+                    break
 
             # 8. 몬스터가 공격
             attack_info_list = []
