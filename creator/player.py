@@ -79,7 +79,7 @@ class Magician(Player):
     def attack(self):
         attack_type = str(input("공격 유형을 선택해주십시오. 1:일반공격, 2:특수공격: "))
         if attack_type == '1':
-            super().attack()
+            return super().attack()
         elif attack_type == '2':
             if self._current_mp > 20:
                 attack_type2 = str(
@@ -97,7 +97,7 @@ class Magician(Player):
                     return [False, False, 0]  # 이부분 [false false 0]으로
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
-                super().attack()
+                return super().attack()
 
 # ======Knight, Thief class 추후 추가해주세요=====
 
@@ -167,7 +167,7 @@ class Thief(Player):
                     return [False, False, 0]
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
-                super().attack()
+                return super().attack()  # ✅✅✅ return 값이 없음
 
 
 def create_player():

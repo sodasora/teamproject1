@@ -284,7 +284,7 @@ while not game_exit:
             # 10. 플레이어 생사 확인
             player_is_alive = player.get_status("is_alive")
             # ✅ is_alive ❌ alive
-            if not player_is_alive:
+            if not player_is_alive[0]:
                 print("게임이 종료됩니다.")  # ✅ 반복문 탈출 수정
                 is_in_dungeon = False
                 game_exit = True
