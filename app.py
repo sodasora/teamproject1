@@ -14,20 +14,28 @@ player = create_player()
 # welcome_player(me.get_status("name"))
 
 # 몬스터 사전
+
 monster_dict = [
     {
-        1: Monster("좀비", 1, "저주"), 2: Monster("구울", 1, "광신"), 3: Monster("황혼의 유령", 1, "축복받은 조준"),
-        4: Monster("가시 마귀", 1, "신성한 번개"), 5: Monster("가시 야수", 1, "신성한 불꽃"), 6: Monster("서슬 가시", 1, "위세"),
-        7: Monster("야수", 1, "진흙 구더기"), 8: Monster("어둠의 사냥꾼", 1, "암흑 화살")
+        "1": Monster("좀비", 1, "저주"), "2": Monster("구울", 1, "광신"), "3": Monster("황혼의 유령", 1, "축복받은 조준"),
+        "4": Monster("가시 마귀", 1, "가시폭풍"), "5": Monster("가시 야수", 1, "서슬퍼런 칼날"), "6": Monster("서슬 가시", 1, "위세"),
+        "7": Monster("가시 박쥐", 1, "맹공"), "8": Monster("어둠의 사냥꾼", 1, "암흑 화살")
     },
     {
-        1: Monster("미라", 2, "암흑 최면"), 2: Monster("발굴된 시체", 2, "독"), 3: Monster("망자", 2, "암흑 주술"),
-        4: Monster("카데바", 2, "감염"), 5: Monster("지네", 2, "근접"), 6: Monster("모래 구더기", 2, "스톤 스킨")
+        "1": Monster("미라", 2, "암흑 최면"), "2": Monster("발굴된 시체", 2, "독"), "3": Monster("망자", 2, "암흑 주술"),
+        "4": Monster("카데바", 2, "감염"), "5": Monster("지네", 2, "근접"), "6": Monster("모래 구더기", 2, "스톤 스킨")
     },
     {
-        1: Monster("거대 거미", 3, "멀티플 샷"), 2: Monster("저승 꼭두각시", 3, "순간 이동"), 3: Monster("황혼의 영혼", 3, "암흑 혼령")
-    }
+        "1": Monster("거대 거미", 3, "멀티플 샷"), "2": Monster("저승 꼭두각시", 3, "순간 이동"), "3": Monster("황혼의 영혼", 3, "암흑 혼령")
+    },
 ]
+
+# 수정해야할 사항
+# 0. 밸런스
+# 1. 던전 선택 오류 ✅✅✅
+# 2. 공격 시 오류 ✅✅✅
+# 3. 마을에서 현재 상태 볼 수 있게
+
 
 game_exit = False
 first_town_visit = True
@@ -58,17 +66,19 @@ while not game_exit:
                 break
 
             if answer == 2:
-                dungeon_level_list = [1, 2, 3]
+                dungeon_level_list = ["1", "2", "3"]  # ✅✅✅ 던전 선택시 입력값 유효성 검사
 
                 print("\n던전을 탐색합니다. 던전은 총 세 종류입니다.")
                 print("1. 초급 던전 2. 중급 던전 3. 상급 던전 ")
-                dungeon_level = int(input("어디로 향하시겠습니까? : "))
+                dungeon_level = input("어디로 향하시겠습니까? : ")
 
                 while dungeon_level not in dungeon_level_list:
                     print("\n입력이 잘못됐습니다.")
                     print("던전은 총 세 종류입니다.")
                     print("1. 초급 던전 2. 중급 던전 3. 상급 던전 ")
-                    dungeon_level = int(input("어디로 향하시겠습니까? : "))
+                    dungeon_level = input("어디로 향하시겠습니까? : ")
+
+                dungeon_level = int(dungeon_level)
 
                 if dungeon_level == 1:
                     print("초급 던전으로 향합니다.")
@@ -96,9 +106,9 @@ while not game_exit:
                 for _ in range(round):
                     length = len(__monster_dict)
                     monster_number = random.randint(1, length)
-                    __monster_list.append(__monster_dict[monster_number])
+                    __monster_list.append(__monster_dict[str(monster_number)])
                     __monster_name_list.append(
-                        __monster_dict[monster_number].get_status("name"))
+                        __monster_dict[str(monster_number)].get_status("name")[0])  # ✅✅ 몬스터 이름 오류 ['서슬 가시'] => 서슬 가시
 
             _monster_list = []
             _monster_name_list = []
@@ -127,6 +137,7 @@ while not game_exit:
         print(f"{monster_name_string}", end="\n\n")
 
         # 3. 전투 여부 선택
+
         def is_battle_or_not():
             no_answer_check = False
             yes_answer_list = ["y", "yes"]
@@ -169,7 +180,7 @@ while not game_exit:
             return True
 
         is_battle = is_battle_or_not()
-        is_in_dungeon = False  # ✅✅ 도망쳤을 때 던전에서 탈출
+        is_in_dungeon = False  # ✅✅ 도망쳤을 때 마을로 복귀
 
         # 4. 전투 돌입
         while is_battle:
@@ -190,13 +201,18 @@ while not game_exit:
             # 광역 공격 아닐 때
             else:
                 def select_target(_monster_name_list: list):
+                    target_list = []
                     for i, _monster_name in enumerate(_monster_name_list):
                         print(f"{i+1}. {_monster_name}", end=" ")
-                    target = int(input("목표를 선택하세요 : ")) - 1
+                        target_list.append(str(i+1))
+
+                    target = input("목표를 선택하세요 : ")  # ✅✅✅ 몬스터 선택시 입력 유효성 검사
 
                     # 유효한 입력인지 확인
-                    while not _monster_name_list[target]:
-                        target = int(input("입력이 잘못됐습니다. 목표를 선택하세요 : ")) - 1
+                    while target not in target_list:
+                        target = input("입력이 잘못됐습니다. 목표를 선택하세요 : ")
+
+                    target = int(target) - 1
 
                     return target
 
@@ -231,6 +247,8 @@ while not game_exit:
 
                 player.change_status(gold=gold, exp=exp)
                 print(f"보상으로 {gold} 골드와 {exp} 경험치를 얻었습니다.", end="\n\n")
+                if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
+                    player.level_up()
                 is_in_dungeon = False
                 break
 
@@ -248,12 +266,7 @@ while not game_exit:
             player_is_alive = player.get_status("is_alive")
             # ✅ is_alive ❌ alive
             if not player_is_alive:
-                print("사망했습니다. 게임이 종료됩니다.")  # ✅ 반복문 탈출 수정
+                print("게임이 종료됩니다.")  # ✅ 반복문 탈출 수정
                 is_in_dungeon = False
                 game_exit = True
                 break
-
-
-####### 수정해야 할 사항 #######
-# 1. 게임 밸런스
-# 2.

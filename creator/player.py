@@ -17,35 +17,9 @@ class Player(Character):
         super().show_status()
         print(f"MP : {self._current_mp} / {self._max_mp}")
 
-    # 플레이어가 몬스터에게 일반 공격할 때 들어가는 함수 -> 없어도 되는 듯?
-    # def attack(self):
-    #     return super().attack()
-
-    # 전투씬에 이미 보상 구현됨(골드, 경험치)
-    # def get_exp(self, is_alive):
-    #     # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 경험치 얻기
-    #     if is_alive:
-    #         pass
-    #     else:
-    #         if self._exp >= self._exp_limit:  # exp_limit달성 시 level_up함수 호출
-    #             self.level_up()
-    #         exp_ = (self._max_level - self._level + 1) * 15
-    #         self._exp += random.randint(int(exp_*0.8), int(exp_*1.2))
-    #         print(f'{self._exp}포인트를 획득하였습니다! 현재 경험치: {self._exp}/{self._exp_limit}')
-
-    # def get_gold(self, is_alive):
-    #     # is_alive에 바로 직전 attacked() 함수에서 생사여부 값이 반환됨. 살았으면 True -> pass, 죽었으면 False -> 골드 얻기
-    #     if is_alive:
-    #         pass
-    #     else:
-    #         gold_ = (self._max_level - self._level + 1) * \
-    #             15  # 경험치는 레벨 비례로 덜 얻게 했는데 골드 기준 생각해보기
-    #         self._gold += random.randint(int(gold_*0.7), int(gold_*1.3))
-    #         print(f'{self._gold}골드를 획득하였습니다! 현재 골드: {self._gold}')
-
     def show_hp(self):
         if self._current_hp == 0:
-            print(f"{self._name}의 체력이 다 떨어졌습니다.")
+            print(f"{self._name}이(가) 사망했습니다.")
         else:
             print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}")
             self.show_mp()
@@ -87,7 +61,7 @@ class Magician(Player):
         level_up_info = 10
         self._magic_power += level_up_info + 30
         print(
-            f"Level UP! 현재 스텟 - 파워:{self._power}, 마법파워:{self._magic_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
+            f"\nLevel UP! 현재 스텟 - 파워:{self._power}, 마법파워:{self._magic_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
 
     # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
@@ -136,7 +110,7 @@ class Knight(Player):
         level_up_info = 10
         self._strength_power += level_up_info + 30
         print(
-            f"Level UP! 현재 스텟 - 파워:{self._power} 체력:{self._current_hp}, 맥스체력:{self._max_hp}, 전사파워:{self._strength_power}, ")
+            f"\nLevel UP! 현재 스텟 - 파워:{self._power}, 전사파워:{self._strength_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp}")
 
     # 전사 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
@@ -183,7 +157,7 @@ class Thief(Player):
         level_up_info = 10
         self._dexterity_power += level_up_info + 30
         print(
-            f"Level UP! 현재 스텟 - power:{self._power} hp:{self._current_hp} dex_power:{self._dexterity_power}")
+            f"\nLevel UP! 현재 스텟 - 파워:{self._power}, 도적파워:{self._dexterity_power}, 체력:{self._current_hp}, 맥스체력:{self._max_hp} ")
 
     # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
     def attack(self):
@@ -276,7 +250,7 @@ def create_player():
 
     이름: {player_obj._name} / 직업: {career_list[player_career]}
 
-    체력: {player_obj._max_hp} / 마력: {player_obj._max_mp}
+    체력: {player_obj._max_hp} / 마나: {player_obj._max_mp}
     
     특수스킬: {career_skill[player_career]} 
     """)
