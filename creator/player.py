@@ -220,18 +220,19 @@ class Thief(Player):
         # attack_info = [is_attack_success, is_area_attack, damage, is_critical]
         luck = self._dexterity_power * 0.008
         half_damage = int(attack_info[2] / 2)
-        if attack_info[0]:
-            if random.random() < luck:
-                print(
-                    f"{self._name}이(가) 몬스터의 공격을 살짝 피해 원래 데미지({attack_info[2]})의 절반인 {half_damage} 데미지만 입었습니다.")
-                self.change_hp(half_damage)
+        if self._is_alive:
+            if attack_info[0]:
+                if random.random() < luck:
+                    print(
+                        f"{self._name}이(가) 몬스터의 공격을 살짝 피해 원래 데미지({attack_info[2]})의 절반인 {half_damage} 데미지만 입었습니다.")
+                    self.change_hp(half_damage)
+                else:
+                    print(
+                        f"{self._name}이(가) {attack_info[2]}의 데미지를 입었습니다.")
+                    self.change_hp(attack_info[2])
             else:
-                print(
-                    f"{self._name}이(가) {attack_info[2]}의 데미지를 입었습니다.")
-                self.change_hp(attack_info[2])
-        else:
-            print(f"{self._name}이(가) 공격을 회피했습니다.")
-            self.change_hp()
+                print(f"{self._name}이(가) 공격을 회피했습니다.")
+                self.change_hp()
 
 
 def create_player():

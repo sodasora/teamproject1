@@ -118,9 +118,16 @@ while not game_exit:
         # 2. 몬스터 생성
         def create_monster_list_with_name_list(_monster_dict: dict):
             def func(__monster_dict: dict, __monster_list: list, __monster_name_list: list, round: int):
+                already_used_monster_number_list = []
+
                 for _ in range(round):
                     length = len(__monster_dict)
                     monster_number = random.randint(1, length)
+
+                    while monster_number in already_used_monster_number_list:
+                        monster_number = random.randint(1, length)
+
+                    already_used_monster_number_list.append(monster_number)
                     __monster_list.append(__monster_dict[str(monster_number)])
                     __monster_name_list.append(
                         __monster_dict[str(monster_number)].get_status("name")[0])  # ✅✅ 몬스터 이름 오류 ['서슬 가시'] => 서슬 가시
@@ -248,6 +255,8 @@ while not game_exit:
                     # 보상 누적
                     exp = 15 + round((dungeon_level*1.5) * 5)
                     gold = 10 + dungeon_level * 5 + random.randint(0, 10)
+
+                    print(f"exp : {exp}, gold : {gold}")
                     reward = [exp, gold]
                     rewards.append(reward)
 
@@ -280,7 +289,7 @@ while not game_exit:
             # 10. 플레이어 생사 확인
             player_is_alive = player.get_status("is_alive")
             # ✅ is_alive ❌ alive
-            if not player_is_alive:
+            if not player_is_alive[0]:
                 print("게임이 종료됩니다.")  # ✅ 반복문 탈출 수정
                 is_in_dungeon = False
                 game_exit = True
