@@ -7,7 +7,7 @@ from creator.player import create_player, Player
 from creator.monster import Monster
 from scripts.script import *
 
-# intro()
+intro()
 
 player = create_player()
 
@@ -30,6 +30,10 @@ monster_dict = [
 
 game_exit = False
 first_town_visit = True
+
+exp = 0
+gold = 0
+reward = [exp, gold]
 
 while not game_exit:
     def in_town(player: Player, first_town_visit: bool):
@@ -85,12 +89,12 @@ while not game_exit:
                     "name", "max_hp", "current_hp", "max_mp", "current_mp", "gold", "exp_limit", "exp")
                 print(
                     f"""
-                    *** 내 현재 스테이터스***
-                    이름        : {name}
-                    한계 경험치 : {exp_limit}   / 현재 경험치 : {exp}
-                    최대 HP     : {max_hp}     / 현재 HP     : {current_hp}
-                    최대 MP     : {max_mp}     / 현재 MP     : {current_mp}
-                    골드 소유량 : {gold}
+                    *** 플레이어의 현재 상태 ***
+                        이름    : {name}
+                        경험치  : {exp}/{exp_limit}
+                        HP      : {current_hp}/{max_hp}
+                        MP      : {current_mp}/{max_mp}
+                        골드    : {gold}
                     """)
 
         return dungeon_level
@@ -123,7 +127,7 @@ while not game_exit:
             _monster_name_list = []
 
             p = random.random()
-            if p < 0.4:
+            if p < 0.1:
                 func(_monster_dict, _monster_list, _monster_name_list, 1)
 
             elif p < 0.8:
@@ -196,9 +200,6 @@ while not game_exit:
         is_in_dungeon = False
 
         # is_battle이 True일 때, 전투 돌입
-        exp = 0
-        gold = 0
-        reward = [exp, gold]
 
         # 4. 전투 돌입
         while is_battle:
@@ -210,15 +211,18 @@ while not game_exit:
             # 광역 공격일 때
             if attack_info[1]:
                 for monster in monster_list:
-                    monster.attacked(attack_info)
+                    if monster:
+                        monster.attacked(attack_info)
 
             # 광역 공격 아닐 때
             else:
                 def select_target(_monster_name_list: list):
                     target_list = []
+
                     for i, _monster_name in enumerate(_monster_name_list):
-                        print(f"{i+1}. {_monster_name}", end=" ")
-                        target_list.append(str(i+1))
+                        if _monster_name:
+                            print(f"{i+1}. {_monster_name}", end=" ")
+                            target_list.append(str(i+1))
 
                     print("")
                     target = input("목표를 선택하세요 : ")  # ✅✅✅ 몬스터 선택시 입력 유효성 검사
@@ -233,17 +237,19 @@ while not game_exit:
 
                 target = select_target(monster_name_list)
 
-                monster_list[target].attacked(attack_info)
+                if monster_list[target]:
+                    monster_list[target].attacked(attack_info)
 
             # 7. 몬스터 생사확인
             for i, monster in enumerate(monster_list):
-                monster_is_alive = monster.get_status("is_alive")
-                # ✅ is_alive ❌ alive
+                if monster_list[i]:
+                    monster_is_alive = monster.get_status("is_alive")
+                    if not monster_is_alive[0]:
+                        print(f"{monster_name_list[i]}을(를) 무찔렀습니다!")
 
-                if not monster_is_alive[0]:  # ✅✅ 몬스터 안 죽는 버그 수정
-                    print(f"{monster_name_list[i]}을(를) 무찔렀습니다!")
-                    monster_list.pop(i)
-                    monster_name_list.pop(i)
+                        # 몬스터가 죽으면 list의 요소가 False가 됨.
+                        monster_list[i] = False
+                        monster_name_list[i] = False
 
                     # 보상 누적
                     exp = 15 + round((dungeon_level*1.5) * 5)
@@ -252,7 +258,7 @@ while not game_exit:
                     reward[0] += exp
                     reward[1] += gold
 
-            if not monster_list:
+            if not any(monster_list):
                 print("전투에서 승리했습니다.")
 
                 # exp = reward[0]
@@ -272,8 +278,9 @@ while not game_exit:
             # 8. 몬스터가 공격
             attack_info_list = []
             for monster in monster_list:
-                attack_info = monster.attack()
-                attack_info_list.append(attack_info)
+                if monster:
+                    attack_info = monster.attack()
+                    attack_info_list.append(attack_info)
 
             # 9. 플레이어가 피격
             for attack_info in attack_info_list:

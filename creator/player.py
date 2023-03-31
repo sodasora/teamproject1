@@ -65,11 +65,11 @@ class Magician(Player):
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
-                이름    : {self._name}
-                경험치  : {self._exp}/{self._exp_limit}
-                HP      : {self._current_hp}/{self._max_hp}
-                MP      : {self._current_mp}/{self._max_mp}
-                골드    : {self._gold}
+                    이름    : {self._name}
+                    경험치  : {self._exp}/{self._exp_limit}
+                    HP      : {self._current_hp}/{self._max_hp}
+                    MP      : {self._current_mp}/{self._max_mp}
+                    골드    : {self._gold}
                     """)
 
     # 마법사 플레이어가 몬스터를 공격할 때 들어가는 함수
@@ -123,11 +123,11 @@ class Knight(Player):
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
-                이름    : {self._name}
-                경험치  : {self._exp}/{self._exp_limit}
-                HP      : {self._current_hp}/{self._max_hp}
-                MP      : {self._current_mp}/{self._max_mp}
-                골드    : {self._gold}
+                    이름    : {self._name}
+                    경험치  : {self._exp}/{self._exp_limit}
+                    HP      : {self._current_hp}/{self._max_hp}
+                    MP      : {self._current_mp}/{self._max_mp}
+                    골드    : {self._gold}
                     """)
 
     # 전사 플레이어가 몬스터를 공격할 때 들어가는 함수
@@ -177,11 +177,11 @@ class Thief(Player):
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
-                이름    : {self._name}
-                경험치  : {self._exp}/{self._exp_limit}
-                HP      : {self._current_hp}/{self._max_hp}
-                MP      : {self._current_mp}/{self._max_mp}
-                골드    : {self._gold}
+                    이름    : {self._name}
+                    경험치  : {self._exp}/{self._exp_limit}
+                    HP      : {self._current_hp}/{self._max_hp}
+                    MP      : {self._current_mp}/{self._max_mp}
+                    골드    : {self._gold}
                     """)
 
     # 도적 플레이어가 몬스터를 공격할 때 들어가는 함수
@@ -280,7 +280,7 @@ def create_player():
 
     이름: {player_obj._name} / 직업: {career_list[player_career]}
 
-    체력: {player_obj._max_hp} / 마나: {player_obj._max_mp}
+    HP: {player_obj._max_hp} / MP: {player_obj._max_mp}
     
     특수스킬: {career_skill[player_career]} 
     """)
