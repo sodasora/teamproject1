@@ -61,7 +61,4 @@ class Character:
             self.show_hp()
 
     def show_hp(self):
-        if self._current_hp == 0:
-            print(f"{self._name}이(가) 사망했습니다.")
-        else:
-            print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}")
+        print(f"{self._name}의 남은 HP : {self._current_hp}/{self._max_hp}")

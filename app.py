@@ -262,6 +262,8 @@ while not game_exit:
 
                 player.change_status(gold=gold, exp=exp)
                 print(f"보상으로 {gold} 골드와 {exp} 경험치를 얻었습니다.", end="\n\n")
+                if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
+                    player.level_up()
                 is_in_dungeon = False
                 break
 
