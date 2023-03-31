@@ -14,13 +14,19 @@ class Monster(Character):
         self._is_alive = True
 
         if self._rank == 1:
-            self._current_hp = random.randint(60, 80)
+            random_value = random.randint(60, 80)
+            self._current_hp = random_value
+            self._max_hp = random_value
             self._power = random.randint(8, 15)
         elif self._rank == 2:
-            self._current_hp = random.randint(80, 100)
+            random_value = random.randint(80, 100)
+            self._current_hp = random_value
+            self._max_hp = random_value
             self._power = random.randint(15, 25)
         else:
-            self._current_hp = random.randint(100, 200)
+            random_value = random.randint(100, 200)
+            self._current_hp = random_value
+            self._max_hp = random_value
             self._power = random.randint(25, 35)
 
     def show_skill(self):

@@ -220,8 +220,8 @@ def create_player():
 
     while True:
         player_career = input("""\n직업을 선택해주세요. (1~3)
-    1. 마법사 2. 전사 3. 도적 
-    """)
+1. 마법사 2. 전사 3. 도적 
+""")
         if player_career != "1" and player_career != "2" and player_career != "3":
             print("잘못된 입력입니다. 1~3 사이 숫자를 입력하세요")
         else:
