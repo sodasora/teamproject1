@@ -14,9 +14,12 @@ class Character:
     def show_status(self):
         print(f"{self._name}의 상태\nHP {self.current_hp}/{self.max_hp}")
 
-    # 공격할 때 쓰는 함수
     def attack(self):
-        # 플레이어/몬스터가 일반공격 시도 (레벨 1:85%/ 레벨2: 90%/ 레벨3: 95% 확률로 공격 성공, 레벨별 5%/10%/15% 확률로 공격 대성공(원래 데미지에 1.5배 큼))
+        """ 공격할 때 쓰는 함수
+        
+        플레이어/몬스터가 일반공격 시도
+        (레벨 1:85%/ 레벨2: 90%/ 레벨3: 95% 확률로 공격 성공, 레벨별 5%/10%/15% 확률로 공격 대성공(원래 데미지에 1.5배 큼))
+        """
         print(f'{self._name}의 공격!!!')
         level_luck = (self._max_level - self._level + 1) * 0.05
         if random.random() > level_luck:
@@ -27,9 +30,13 @@ class Character:
             return [True, False, damage, is_critical]
         return [False, False, 0, False]
 
-    # 공격 받았을 때 쓰는 함수
     def attacked(self, attack_info: list):
-        # attack_info = [is_attack_success, is_area_attack, damage, is_critical]
+        """공격 받았을 때 쓰는 함수
+
+        attack_info (list): [is_attack_success, is_area_attack, damage, is_critical]
+            
+        공격정보 (list): [공격 성공 여부, 전부공격(T)/타겟공격(F), 데미지, 기습공격 여부]
+        """
         if self._is_alive:
             if attack_info[0]:
                 if attack_info[3]:

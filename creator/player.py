@@ -51,18 +51,17 @@ class Player(Character):
 
 
 # ===========Magician class========
-
 class Magician(Player):
     def __init__(self, name):
         super().__init__(name)
         self._magic_power = self._power * 2
 
-    def level_up(self):  # level_up 메소드 오버라이딩
+    def level_up(self):
         super().level_up()
         level_up_info = 5
-        self._max_mp += level_up_info * 5
+        self._max_mp += level_up_info * 5   # 마법사는 레벨업 시 다른 직업보다 mp가 더 많이 상승함
         self._current_mp = self._max_mp
-        self._magic_power += level_up_info * 2
+        self._magic_power += level_up_info * 2  # 특수스킬 파워 업
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
@@ -102,25 +101,23 @@ class Magician(Player):
                     elif attack_type2 == '2':
                         return [True, False, skill_damage, False]
                 else:
-                    return [False, False, 0, False]  # 이부분 [false false 0]으로
+                    return [False, False, 0, False]
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 return super().attack()
 
-# ======Knight, Thief class 추후 추가해주세요=====
-
-
+# ===========Knight class========
 class Knight(Player):
     def __init__(self, name):
         super().__init__(name)
         self._strength_power = self._power * 2
 
-    def level_up(self):  # super로 메소드 호출하고, 추가기능만 오버라이딩
+    def level_up(self):
         super().level_up()
         level_up_info = 5
-        self._max_hp += level_up_info * 5
+        self._max_hp += level_up_info * 5   # 전사는 레벨업 시 다른 직업보다 hp가 더 많이 상승함
         self._current_hp = self._max_hp
-        self._strength_power += level_up_info * 2
+        self._strength_power += level_up_info * 2   # 특수스킬 파워 업
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
@@ -160,12 +157,12 @@ class Knight(Player):
                     elif attack_type2 == '2':
                         return [True, False, skill_damage, False]
                 else:
-                    return [False, False, 0, False]  # 이부분 [false false 0]으로
+                    return [False, False, 0, False]
             else:
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 return super().attack()
 
-
+# ===========Thief class========
 class Thief(Player):
     def __init__(self, name):
         super().__init__(name)
@@ -174,7 +171,7 @@ class Thief(Player):
     def level_up(self):
         super().level_up()
         level_up_info = 5
-        self._dexterity_power += level_up_info * 2
+        self._dexterity_power += level_up_info * 2  # 특수스킬 파워 업 / 도적은 스킬파워가 회피율에도 쓰임
         print(
             f"""
                     *** Level UP! 현재 스텟 ***
@@ -219,10 +216,13 @@ class Thief(Player):
                 print("MP가 부족합니다. 일반공격을 시도합니다.")
                 return super().attack()
 
-    # 도적의 공격 피하기 스킬 (전사는 레벨업할수록 hp 더 커지고, 마법사는 mp 더 커지고, 도적은 회피율 증가)
-
     def attacked(self, attack_info: list):
-        # attack_info = [is_attack_success, is_area_attack, damage, is_critical]
+        """도적의 공격 피하기 스킬
+
+        attack_info (list): [is_attack_success, is_area_attack, damage, is_critical]
+            
+        공격정보 (list): [공격 성공 여부, 전부공격(T)/타겟공격(F), 데미지, 기습공격 여부]
+        """
         luck = self._dexterity_power * 0.008
         half_damage = int(attack_info[2] / 2)
         if self._is_alive:

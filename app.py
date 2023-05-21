@@ -282,7 +282,15 @@ while not game_exit:
 
                 if player._exp >= player._exp_limit:  # exp_limit달성 시 level_up함수 호출
                     player.level_up()
-
+                    
+                if dungeon_level == 1:
+                    print("모험가여 승리 하셨군요! 축하드립니다. 하지만 방금 당신이 상대한 몬스터들은 어둠의 세력에게 쫓겨난, 비교적 약한 몬스터들입니다. ")
+                    print("2단계 몬스터들과 전투 할 준비가 되셨다면 중급 던전으로 진입하십시오..\n")
+                    
+                if dungeon_level == 2:
+                    print("역시 당신은 에테리아 왕국을 구해줄 구원자이십니다. 당신은 전투를 통해 더욱 강해졌군요.")
+                    print("모험가여, 마침내 어둠의 본거지에서 에테리아 왕국을 위협하는 세력들과 맞서 싸울 수 있을 것 같군요!\n")
+                
                 if dungeon_level == 3 and not is_clear_rank3:
                     is_clear_rank3 = True
 
@@ -311,7 +319,7 @@ while not game_exit:
             # 10. 플레이어 생사 확인
             player_is_alive = player.get_status("is_alive")
             if not player_is_alive[0]:
-                print("게임이 종료됩니다.")  # ✅ 반복문 탈출 수정
+                print("게임이 종료됩니다.")
                 is_in_dungeon = False
                 game_exit = True
                 break

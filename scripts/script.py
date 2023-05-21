@@ -4,14 +4,14 @@ import os
 
 def intro():
     # =============게임 스토리 소개====================
-    os.system('clear')  # (for linux, mac)
-    # os.system('cls')
+    # os.system('clear')  # for linux, mac
+    os.system('cls') # for window
     str1 = "용감한 모험가 여러분, 신비로운 에테리아 왕국에 오신 것을 환영합니다!"
     str2 = "마법에 걸린 땅에서 운명을 개척하는 모험을 떠나보세요. 백성들의 마지막 희망인 당신은 왕국을 위협하는 어둠의 세력으로부터 왕국을 지켜야 합니다!"
     str3 = "용감한 모험가여, 에테리아의 운명은 당신의 손에 달려있습니다. 빛이 여러분의 창대한 여정을 인도하길 바랍니다. 여정을 시작하세요!"
     strs = [str1, str2, str3]
 
-    for str in strs:  # 임의로 0.5초로 잡아두었습니다 개행이라던가 다른 아이디어들 적어주세요!
+    for str in strs:
         print(str)
         print("")
         sleep(2)
