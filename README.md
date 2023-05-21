@@ -9,11 +9,11 @@ Python으로 작성된 코드를 Terminal에서 실행하는 RPG Game입니다.
 * 23.03.29 - 23.03.31
 
 ### 🧑‍🤝‍🧑 팀원 구성 및 역할 분담
-- 팀장😄  : 우소라 - 몬스터 클래스, 몬스터 딕셔너리
-- 팀원😄1 : 김경수 - 전투 씬(app.py)
+- 팀장😄  : <a href="https://velog.io/@awo3sr">우소라</a> - 몬스터 클래스, 몬스터 딕셔너리
+- 팀원😄1 : <a href="https://engulfedinflames.github.io/">김경수</a> - 전투 씬(app.py)
 - 팀원😄2 : <a href="https://guco.tistory.com/">구민정</a> - 캐릭터 클래스, 직업별 공격 함수
-- 팀원😄3 : 최준영 - 스크립트 및 플레이어 클래스
-- 팀원😄4 : 장소은 - 직업별 레벨업 함수, 플레이어 객체 생성 함수
+- 팀원😄3 : <a href="https://velog.io/@nueeng">최준영</a> - 스크립트 및 플레이어 클래스
+- 팀원😄4 : <a href="https://sogummi.tistory.com/">장소은</a> - 직업별 레벨업 함수, 플레이어 객체 생성 함수
 
 ### ⚙️ 개발 환경
 - `Python 3.11`
